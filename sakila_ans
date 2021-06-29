@@ -1,0 +1,97 @@
+use sakila;
+
+select * from actor;
+
+SELECT 
+    last_name
+FROM
+    actor
+WHERE
+    `first_name` = 'John';
+
+select * from actor where `last_name`='Neeson';
+
+select * from actor where `actor_id` like '%0' ;
+
+select `description` from film where `film_id`= 100 ;
+
+select * from film where `rating`= 'R' ;
+
+select * from film where `rating`!= 'R' ;
+
+select * from film ORDER BY `length` ASC LIMIT 10;
+
+select * from film where `length`=(
+select max(`length`) from film
+);
+
+select * from film where `special_features` like '%Deleted Scenes%';
+
+SELECT 
+    `last_name`
+FROM
+    actor
+GROUP BY `last_name`
+HAVING COUNT(`last_name`) = 1
+ORDER BY `last_name` DESC;
+
+select count(*) as `frequency`, `last_name` from actor group by `last_name`
+having `frequency`>1 order by `frequency` desc;
+
+-- cba to go back and capitalise the command words, I thought the auto cap option would do it for me but Oricle said no --
+
+SELECT count(`f`.`actor_id`) AS `frequency`, `f`.`actor_id`, `a`.`first_name`, `a`.`last_name` FROM 
+`film_actor` `f` JOIN `actor` `a`
+ON `f`.`actor_id`=`a`.`actor_id`
+GROUP BY `actor_id`
+ORDER BY `frequency` DESC
+LIMIT 1 ;
+
+SELECT `release_year` FROM `film` WHERE `title`='Academy Dinosaur' ;
+
+SELECT AVG(`length`) FROM `film` ;
+
+SELECT `c`.`name`, AVG(`f`.`length`) AS `average_length` 
+FROM `category` `c` 
+JOIN `film_category` `j` ON `c`.`category_id`=`j`.`category_id`
+JOIN `film` `f` ON `j`.`film_id`=`f`.`film_id`
+GROUP BY `name`;
+
+SELECT * FROM `film` WHERE `description` like '%robot%';
+
+SELECT * FROM `film` WHERE `release_year`= 2010 ;
+
+SELECT `f`.`title`
+FROM `category` `c` 
+JOIN `film_category` `j` ON `c`.`category_id`=`j`.`category_id`
+JOIN `film` `f` ON `j`.`film_id`=`f`.`film_id`
+WHERE `c`.`name`='Horror' ;
+
+SELECT CONCAT(`first_name`, ' ', `last_name`) `Full name` 
+FROM `staff` WHERE `staff_id`= 2 ;
+
+SELECT `f`.`title`, CONCAT(`a`.`first_name`, ' ', `a`.`last_name`) AS `full_name`
+FROM `actor` `a`
+JOIN `film_actor` `j` ON `a`.`actor_id`=`j`.`actor_id`
+JOIN `film` `f` ON `j`.`film_id`=`f`.`film_id`
+WHERE `a`.`first_name`='Fred' AND `a`.`last_name`='Costner' ;
+
+SELECT COUNT(`country`)
+FROM `country` ;
+
+SELECT `name`
+FROM `language`
+ORDER BY `name` DESC ;
+
+SELECT CONCAT(`first_name`, ' ', `last_name`)
+FROM `actor`
+WHERE `last_name` LIKE '%son'
+ORDER BY `first_name` ASC ;
+
+SELECT `c`.`name`, COUNT(`f`.`film_id`) AS `film_count`
+FROM `category` `c` 
+JOIN `film_category` `j` ON `c`.`category_id`=`j`.`category_id`
+JOIN `film` `f` ON `j`.`film_id`=`f`.`film_id`
+GROUP BY `c`.`name` 
+ORDER BY `film_count` DESC 
+LIMIT 1 ;

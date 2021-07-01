@@ -3,7 +3,7 @@ package coins;
 public class CoinsApp {
 
 	public static void main(String[] args) {
-
+			//  price, payment
 		Coins.change(7.64, 50);
 
 	}
